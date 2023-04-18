@@ -18,11 +18,15 @@ public class StorageConfig {
     @Value("${cloud.aws.credentials.secret-key}")
     private String accessSecret;
 
+    @Value("${cloud.aws.region.static}")
+    private String region;
+
     @Bean
     public AmazonS3 s3Client() {
         AWSCredentials credentials = new BasicAWSCredentials(accessKey, accessSecret);
         return AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .withRegion(region)
                 .build();
     }
 
